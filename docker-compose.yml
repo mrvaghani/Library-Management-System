@@ -11,7 +11,7 @@ services:
         container_name: MEHUL-MSSQL-SERVER
         hostname: MEHUL-MSSQL-SERVER
         env_file:
-          - ENV/SQL_SERVER.env
+          - lms_app/ENV/SQL_SERVER.env
         ports:
           - "1433:1433"
         volumes:
