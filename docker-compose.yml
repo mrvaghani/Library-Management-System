@@ -8,6 +8,8 @@ services:
 #            - db
     db:
         image: "mcr.microsoft.com/mssql/server:2019-latest"
+        container_name: MEHUL-MSSQL-SERVER
+        hostname: MEHUL-MSSQL-SERVER
         env_file:
           - ENV/SQL_SERVER.env
         ports:
@@ -16,4 +18,3 @@ services:
           - "D:/CloudSync/GoogleDrive/school/NJIT Masters/Spring 2021/CS631/Project 3/docker-db/data:/var/opt/mssql/data"
           - "D:/CloudSync/GoogleDrive/school/NJIT Masters/Spring 2021/CS631/Project 3/docker-db/log:/var/opt/mssql/log"
           - "D:/CloudSync/GoogleDrive/school/NJIT Masters/Spring 2021/CS631/Project 3/docker-db/secrets:/var/opt/mssql/secrets"
-
