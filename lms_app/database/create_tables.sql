@@ -223,7 +223,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE TABLE [dbo].[document](
-	[docid] [int] NOT NULL,
+	[docid] [int] IDENTITY(1,1) NOT NULL,
 	[title] [varchar](150) NULL,
 	[pdate] [date] NULL,
 	[publisherid] [int] NULL,
