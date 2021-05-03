@@ -338,7 +338,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE TABLE [dbo].[person](
-	[pid] [int] NOT NULL,
+	[pid] [int] IDENTITY(1,1) NOT NULL,
 	[pname] [nvarchar](50) NULL,
  CONSTRAINT [PK_person] PRIMARY KEY CLUSTERED
 (
@@ -409,7 +409,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE TABLE [dbo].[reader](
-	[rid] [int] NOT NULL,
+	[rid] [int] IDENTITY(300,1) NOT NULL,
 	[rtype] [varchar](50) NULL,
 	[rname] [varchar](50) NULL,
 	[raddress] [varchar](50) NULL,
@@ -430,7 +430,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE TABLE [dbo].[reservation](
-	[res_no] [int] NOT NULL,
+	[res_no] [int] IDENTITY(991,1) NOT NULL,
 	[dtime] [datetime] NULL,
  CONSTRAINT [PK_reservation] PRIMARY KEY CLUSTERED
 (
