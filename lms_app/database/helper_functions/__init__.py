@@ -36,3 +36,63 @@ while row:
 # 'John2', 'Cena', 50, '01/20/2020').rowcount
 # cnxn.commit()
 # print('Rows inserted: ' + str(count))
+
+def add_document(doc_title: str, doc_pdate: str, doc_publisherid: int, doc_type: dict) -> dict:
+    """
+    Add a new document to database.
+    :param doc_title: Document title
+
+    :param doc_pdate: Date when the document was published
+
+    :param doc_publisherid: ID of the publisher of the document
+
+    :param doc_type: The type of document and additional data along with it.
+            If doc_type = book:
+                {
+                    doc_type: "book",
+                    isbn: "1-1234-5678-9",
+                    author_pid: "123"
+                }
+            If doc_type = journal:
+                {
+                    doc_type: "journal",
+                    volume_no: "123",
+                    editor_pid: "123",
+                    issue_no: "123",
+                    scope: "science"
+                }
+            If doc_type = proceedings:
+                {
+                    doc_type: "proceedings",
+                    cdate: "02/15/2020",
+                    clocation: "New Jersey",
+                    ceditor: "David Alan",
+                    chair_pid: "123"
+                }
+
+    :return:
+        {
+            status: "success",
+            msg: "1 row affected"
+        }
+    """
+    pass
+
+
+def get_document_copy_status(docid: int, copy_no: int, bid: int) -> dict:
+    """
+    Given DocumentID, Copy Number and Branch ID, return the current status of the document copy.
+    Possible status: Reserved, Borrowed, Available
+
+    :param docid: Document ID of the document we want to search
+    :param copy_no: Copy number of the document we want to search
+    :param bid: Branch ID of where the document is located
+    :return: The status of the document
+            {
+            docid: "<given document id>",
+            status: "Reserved|Borrowed|Available",
+            err_msg: "Unable to find document"
+            }
+    """
+    pass
+
