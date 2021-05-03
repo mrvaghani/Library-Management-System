@@ -3,6 +3,7 @@ import os
 import time
 from os.path import join
 from dotenv import load_dotenv
+from datetime import datetime, timedelta
 
 
 dotenv_path = join(os.path.realpath('../../ENV'), 'SQL_SERVER.env')
@@ -171,9 +172,75 @@ def document_reserve(db_cursor, doc_id: int, copy_no: int, bid: int, rid: int):
         return {'status': 'success', 'data': None, 'msg': None}
 
 
+def compute_fine(db_cursor, doc_id: int, copy_no: int, bid: int, rid: int):
+    query = """
+        Select borrowing.bdtime
+        FROM dbo.borrowing
+        WHERE borrowing.bor_no IN (SELECT borrows.bor_no
+                                    FROM dbo.borrows
+                                    WHERE borrows.docid = ? 
+                                        AND borrows.copyno = ? 
+                                        AND borrows.bid = ? 
+                                        AND  borrows.rid = ?)
+                AND borrowing.rdtime IS NULL
+                            """
+    current_time = time.strftime('%m-%d-%Y %H:%M:%S')
+    my_values = (doc_id, copy_no, bid, rid)
+    db_cursor.execute(query, my_values)
+    db_cursor.commit()
+    aa = db_cursor.fetchone()
+
+    # datetime_object = datetime.strptime('2020-08-01 15:00:00.000', '%b %d %Y %I:%M%p')
+    borrow_date = datetime.strptime(str(aa[0]), '%Y-%m-%d %H:%M:%S')
+    present_datetime = datetime.now()
+    days_diff = present_datetime - borrow_date
+    fine_value = 0
+    if days_diff.days > 20:
+        fine_value = (days_diff.days - 20) * 20  # 20 cents/pay after 20 days from when it was borrowed
+    else:
+        fine_value = 0
+    a = db_cursor.commit()
+    return {'status': 'success', 'data': {'fine_in_cents': fine_value}, 'msg': None}
+
+
+def documents_reserved_reader(db_cursor, rid: int):
+    query = """
+        SELECT reserves.docid, reserves.copyno, reserves.bid
+        FROM dbo.reserves
+        WHERE RID = ?
+            """
+    my_values = rid
+    resp = db_cursor.execute(query, my_values)
+    db_cursor.commit()
+    columns = [column[0] for column in cursor.description]
+    results = []
+    for row in resp.fetchall():
+        results.append(dict(zip(columns, row)))
+    return {'status': 'success', 'data': results, 'msg': None}
+
+
+def documents_by_publisher(db_cursor, publisher_id: int):
+    query = """
+            SELECT document.docid, document.title
+            FROM dbo.document
+            WHERE document.publisherid = ?
+                """
+    my_values = publisher_id
+    resp = db_cursor.execute(query, my_values)
+    db_cursor.commit()
+    columns = [column[0] for column in cursor.description]
+    results = []
+    for row in resp.fetchall():
+        results.append(dict(zip(columns, row)))
+    return {'status': 'success', 'data': results, 'msg': None}
+
+
 cnxn2 = pyodbc.connect(f'DRIVER={{SQL Server}};SERVER={sql_server};DATABASE={sql_database};UID={sql_username};PWD={sql_password}', autocommit=True)
 # res = document_checkout(db_cursor=cursor, doc_id=1, copy_no=1, bid=1, rid=300, connection=cnxn2)
 # res = document_return(db_cursor=cursor, doc_id=1, copy_no=1, bid=1)
 # res = is_being_borrowed(db_cursor=cursor, doc_id=9, copy_no=1, bid=6)
-res = document_reserve(db_cursor=cursor, doc_id=9, copy_no=1, bid=6, rid=300)
+# res = document_reserve(db_cursor=cursor, doc_id=9, copy_no=1, bid=6, rid=300)
+# res = compute_fine(db_cursor=cursor, doc_id=1, copy_no=1, bid=1, rid=300)
+# res = documents_reserved_reader(db_cursor=cursor, rid=302)
+res = documents_by_publisher(db_cursor=cursor, publisher_id=21515)
 print(res)
