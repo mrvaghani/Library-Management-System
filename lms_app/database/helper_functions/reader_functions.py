@@ -173,6 +173,9 @@ def document_reserve(db_cursor, doc_id: int, copy_no: int, bid: int, rid: int):
 
 
 def compute_fine(db_cursor, doc_id: int, copy_no: int, bid: int, rid: int):
+    # Get the BDTIME of this transaction
+    # Make sure the RDTIME is NULL, meaning the user still has the book on them
+
     query = """
         Select borrowing.bdtime
         FROM dbo.borrowing
@@ -190,11 +193,13 @@ def compute_fine(db_cursor, doc_id: int, copy_no: int, bid: int, rid: int):
     db_cursor.commit()
     aa = db_cursor.fetchone()
 
-    # datetime_object = datetime.strptime('2020-08-01 15:00:00.000', '%b %d %Y %I:%M%p')
+    # Calculate the difference between TODAY and BDTIME
     borrow_date = datetime.strptime(str(aa[0]), '%Y-%m-%d %H:%M:%S')
     present_datetime = datetime.now()
     days_diff = present_datetime - borrow_date
     fine_value = 0
+
+    # Calculate fine
     if days_diff.days > 20:
         fine_value = (days_diff.days - 20) * 20  # 20 cents/pay after 20 days from when it was borrowed
     else:
@@ -235,12 +240,33 @@ def documents_by_publisher(db_cursor, publisher_id: int):
     return {'status': 'success', 'data': results, 'msg': None}
 
 
-cnxn2 = pyodbc.connect(f'DRIVER={{SQL Server}};SERVER={sql_server};DATABASE={sql_database};UID={sql_username};PWD={sql_password}', autocommit=True)
-# res = document_checkout(db_cursor=cursor, doc_id=1, copy_no=1, bid=1, rid=300, connection=cnxn2)
+##############################
+# Reader Functions Menu Demo:
+# https://njit.webex.com/meet/pag36
+##############################
+# # ToDo - Search a document by ID, title, or publisher name.
+# res = search_document(db_cursor=cursor, doc_id=15)
+# res = search_document(db_cursor=cursor, doc_title='Harry Potter and the Philosophers Stone')
+# res = search_document(db_cursor=cursor, publisher_name='Averil Harroll')
+#
+# # ToDo - Document checkout
+# cnxn2 = pyodbc.connect(f'DRIVER={{SQL Server}};SERVER={sql_server};DATABASE={sql_database};'
+#                        f'UID={sql_username};PWD={sql_password}', autocommit=True)
+# res = document_checkout(db_cursor=cursor, doc_id=2, copy_no=2, bid=1, rid=301, connection=cnxn2)
+#
+# # ToDo - Document return.
 # res = document_return(db_cursor=cursor, doc_id=1, copy_no=1, bid=1)
-# res = is_being_borrowed(db_cursor=cursor, doc_id=9, copy_no=1, bid=6)
+#
+# # ToDo - Document reserve.
 # res = document_reserve(db_cursor=cursor, doc_id=9, copy_no=1, bid=6, rid=300)
-# res = compute_fine(db_cursor=cursor, doc_id=1, copy_no=1, bid=1, rid=300)
+#
+# # ToDo - Compute fine for a document copy borrowed by a reader based on the current date.
+res = compute_fine(db_cursor=cursor, doc_id=1, copy_no=1, bid=1, rid=300)
+#
+# # ToDo - Print the list of documents reserved by a reader and their status.
 # res = documents_reserved_reader(db_cursor=cursor, rid=302)
-res = documents_by_publisher(db_cursor=cursor, publisher_id=21515)
+#
+# # ToDo - Print the document id and document titles of documents published by a publisher.
+# res = documents_by_publisher(db_cursor=cursor, publisher_id=21515)
+
 print(res)
