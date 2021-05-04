@@ -228,16 +228,16 @@ Insert into borrowing (bdtime,rdtime) VALUES ('05/06/2011', '05/26/2011');
 
 
 -- Populate Reader Table
-Insert into reader (rid,rtype,rname, raddress,phone_no) VALUES (300,'Student', 'James', 'NO 2,First Street,Harrison,NJ07029', '1111111111');
-Insert into reader (rid,rtype,rname, raddress,phone_no) VALUES (301,'Senior Citizen', 'Gerrard', 'NO 4,Euclid Avenue, Kearny, NJ07032', '2222222222');
-Insert into reader (rid,rtype,rname, raddress,phone_no) VALUES (302,'Student', 'Messi', 'NO 12, Second Cross Street, Paterson, NJ07040', '3333333333');
-Insert into reader (rid,rtype,rname, raddress,phone_no) VALUES (303,'Staff', 'Ronaldo', 'NO 5, Halstead Street, Kearny, NJ07032', '4444444444');
-Insert into reader (rid,rtype,rname, raddress,phone_no) VALUES (304,'Senior Citizen', 'Lampard', 'NO 7, Hudson Avenue, Hudson, NJ07033', '5555555555');
-Insert into reader (rid,rtype,rname, raddress,phone_no) VALUES (305,'Staff', 'Drogba', 'NO 8, Third Street, Paterson, NJ07040', '6666666666');
-Insert into reader (rid,rtype,rname, raddress,phone_no) VALUES (306,'Student', 'Neymar', 'NO 15, Union Street, Newark, NJ07107', '7777777777');
-Insert into reader (rid,rtype,rname, raddress,phone_no) VALUES (307,'Senior Citizen', 'Ramos', 'NO 49, Bloomfield Avuenue, Bloomfield, NJ07100', '8888888888');
-Insert into reader (rid,rtype,rname, raddress,phone_no) VALUES (308,'Student', 'Rooney', 'NO 30, Third Cross Street, Paterson, NJ07040', '9898989898');
-Insert into reader (rid,rtype,rname, raddress,phone_no) VALUES (309,'Staff', 'Henderson', 'NO 20, Manor Avunue, Harrison, NJ07029', '2525252525');
+Insert into reader (rtype,rname, raddress,phone_no) VALUES ('Student', 'James', 'NO 2,First Street,Harrison,NJ07029', '1111111111');
+Insert into reader (rtype,rname, raddress,phone_no) VALUES ('Senior Citizen', 'Gerrard', 'NO 4,Euclid Avenue, Kearny, NJ07032', '2222222222');
+Insert into reader (rtype,rname, raddress,phone_no) VALUES ('Student', 'Messi', 'NO 12, Second Cross Street, Paterson, NJ07040', '3333333333');
+Insert into reader (rtype,rname, raddress,phone_no) VALUES ('Staff', 'Ronaldo', 'NO 5, Halstead Street, Kearny, NJ07032', '4444444444');
+Insert into reader (rtype,rname, raddress,phone_no) VALUES ('Senior Citizen', 'Lampard', 'NO 7, Hudson Avenue, Hudson, NJ07033', '5555555555');
+Insert into reader (rtype,rname, raddress,phone_no) VALUES ('Staff', 'Drogba', 'NO 8, Third Street, Paterson, NJ07040', '6666666666');
+Insert into reader (rtype,rname, raddress,phone_no) VALUES ('Student', 'Neymar', 'NO 15, Union Street, Newark, NJ07107', '7777777777');
+Insert into reader (rtype,rname, raddress,phone_no) VALUES ('Senior Citizen', 'Ramos', 'NO 49, Bloomfield Avuenue, Bloomfield, NJ07100', '8888888888');
+Insert into reader (rtype,rname, raddress,phone_no) VALUES ('Student', 'Rooney', 'NO 30, Third Cross Street, Paterson, NJ07040', '9898989898');
+Insert into reader (rtype,rname, raddress,phone_no) VALUES ('Staff', 'Henderson', 'NO 20, Manor Avunue, Harrison, NJ07029', '2525252525');
 
 
 -- Populate Reservation Table
