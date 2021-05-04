@@ -17,20 +17,6 @@ sql_password = os.environ.get("MSSQL_SA_PASSWORD")
 cnxn = pyodbc.connect(f'DRIVER={{SQL Server}};SERVER={sql_server};DATABASE={sql_database};UID={sql_username};PWD={sql_password}', autocommit=True)
 cursor = cnxn .cursor()
 
-# Sample select query
-# cursor.execute("SELECT * FROM CS631.dbo.document;")
-# row = cursor.fetchone()
-# while row:
-#     print(f'{row[0]}\t {row[1]}')
-#     row = cursor.fetchone()
-
-# count = cursor.execute("""
-# INSERT INTO Testdb.dbo.sample (firstname, lastname, age, dob)
-# VALUES (?,?,?,?)""",
-# 'John2', 'Cena', 50, time.strftime('%m-%d-%Y %H:%M:%S')).rowcount
-# cnxn.commit()
-# print('Rows inserted: ' + str(count))
-
 
 def is_being_borrowed(db_cursor, doc_id: int, copy_no: int, bid: int) -> bool:
 
@@ -250,6 +236,7 @@ def documents_by_publisher(db_cursor, publisher_id: int):
 # res = search_document(db_cursor=cursor, publisher_name='Averil Harroll')
 #
 # # ToDo - Document checkout
+# # Note: FK violation if reader is not already in the DB
 # cnxn2 = pyodbc.connect(f'DRIVER={{SQL Server}};SERVER={sql_server};DATABASE={sql_database};'
 #                        f'UID={sql_username};PWD={sql_password}', autocommit=True)
 # res = document_checkout(db_cursor=cursor, doc_id=2, copy_no=2, bid=1, rid=301, connection=cnxn2)
@@ -261,12 +248,13 @@ def documents_by_publisher(db_cursor, publisher_id: int):
 # res = document_reserve(db_cursor=cursor, doc_id=9, copy_no=1, bid=6, rid=300)
 #
 # # ToDo - Compute fine for a document copy borrowed by a reader based on the current date.
-res = compute_fine(db_cursor=cursor, doc_id=1, copy_no=1, bid=1, rid=300)
+# This demo book was borrowed on - 2021-04-01 06:56:50.000
+# res = compute_fine(db_cursor=cursor, doc_id=1, copy_no=1, bid=1, rid=300)
 #
 # # ToDo - Print the list of documents reserved by a reader and their status.
-# res = documents_reserved_reader(db_cursor=cursor, rid=302)
+# res = documents_reserved_reader(db_cursor=cursor, rid=303)
 #
 # # ToDo - Print the document id and document titles of documents published by a publisher.
 # res = documents_by_publisher(db_cursor=cursor, publisher_id=21515)
 
-print(res)
+# print(res)
